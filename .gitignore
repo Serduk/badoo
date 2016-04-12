@@ -1,0 +1,10 @@
+/bin/
+/target/
+# /runconfigs/*.xml
+/.idea
+/java/badoo/badoo.iml
+/.settings/*
+/temp/
+/test-output/
+/src/core/core.iml
+/badoo.iml
