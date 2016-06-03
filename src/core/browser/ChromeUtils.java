@@ -1,6 +1,16 @@
 package core.browser;
 
 
+import core.constans.LocaleData;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by serdyuk on 6/3/16.
  */
@@ -16,15 +26,16 @@ public class ChromeUtils {
      */
     public ChromeUtils(String location, int waitInSeconds) {
 
-        System.setProperty("webdriver.chrome.driver", new ChromeUtils().osDetection());
+        System.setProperty("webdriver.chrome.driver", new ChromeProperties().osDetection());
+
 
         options = new ChromeOptions();
         options.addArguments("--lang=" + new LocaleData().getLocale(location));
         options.addArguments("--disable-user-media-security");
         options.addArguments("--use-fake-ui-for-media-stream");
 
-        capabilities    = DesiredCapabilities.chrome();
-        wait            = waitInSeconds;
+        capabilities = DesiredCapabilities.chrome();
+        wait = waitInSeconds;
 
     }
 
