@@ -134,3 +134,11 @@
     </dependencies>
 
 </project>
+
+<!--
+
+//    mvn -Dtest=TestRun clean test
+//    mvn -Dtest=TestRun -Ddataproviderthreadcount=5 test
+
+
+-->
