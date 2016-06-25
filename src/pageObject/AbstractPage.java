@@ -8,6 +8,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -26,13 +27,9 @@ import java.util.stream.Collectors;
  */
 public class AbstractPage {
 
-
-    /**
-     * Constructor
-     *
-     * @param driver
-     */
+    /** @param driver WebDriver */
     public WebDriver driver;
+
 
     public AbstractPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -49,7 +46,7 @@ public class AbstractPage {
     public static WebElement body;
 
     /**
-     * Upload file to FTP
+     * Upload file to FTP (Internal)
      * @param fileName full name of file
      * @param path directory path to file
      * @return absolute path to file
@@ -61,7 +58,7 @@ public class AbstractPage {
 
         try {
             client.connect(config.FTP_URL);
-//            client.login(config.IPA_LOGIN_AG, config.IPA_PASSWORD_AG);
+            client.login(config.SCREEN_CLOUD_LOGIN, config.SCREEN_CLOUD_PASSWORD);
             client.setFileType(FTP.BINARY_FILE_TYPE);
 
             if (client.isConnected()) {
@@ -73,7 +70,7 @@ public class AbstractPage {
                     inputStream.close();
                     client.logout();
                     client.disconnect();
-//                    return config.SCREENSHARE_URL + "/" + config.IPA_LOGIN_AG + "/"+fileName;
+                    return config.SCREENSHARE_URL + "/" + config.SCREEN_CLOUD_LOGIN + "/"+fileName;
                 }
             }
         } catch (IOException e) {
@@ -115,7 +112,7 @@ public class AbstractPage {
     }
 
     /**
-     * Take ScreenShot of current page
+     * Method Take ScreenShot of current page
      * @param screenName name of screenShot
      * @param uploadToFTP bool. Upload to ftp
      * @return absolute path of screenShot
@@ -137,25 +134,19 @@ public class AbstractPage {
     }
 
     /**
-     * Take ScreenShot of current page
-     * @param screenName name of screenShot
-     * @return absolute path of screenShot
+     * Method take a screenShot of current page (Use for AllureFramework annotations)
+     * @return Byte[] of screenshot
      * @throws IOException
      */
-    public byte[] takeScreenShot(String screenName) throws IOException {
-        ConfigLoader config = new ConfigLoader();
-
-        screenName = screenName  + ".png";
-
+    public byte[] takeScreenShot() throws IOException {
         return (byte[]) ((TakesScreenshot) driver).getScreenshotAs((OutputType) OutputType.BYTES);
     }
 
     /**
-     * Check if is element present on page
+     * Method Check if is element present on page
      * @param element WebElement
      * @return true or false
-     * NOT TROW ANY EXCEPTION ! BE CAREFUL. HARD TO DEBUG WHIT THIS SH*T.
-     *
+     * NOT TROW ANY EXCEPTION! BE CAREFUL. HARD TO DEBUG WHIT THIS SH*T.
      */
     public boolean isElementPresent(WebElement element){
         boolean isPresent = false;
@@ -169,9 +160,13 @@ public class AbstractPage {
         return isPresent;
     }
 
-
-    public boolean waitForClickable(WebElement element, int seconds) {
-        boolean result;
+    /**
+     * Method return boolean is the element is clicked after (int) seconds
+     * @param element what needs to be clicked
+     * @param seconds wait time
+     * @return boolean element is clicked or not
+     */
+    public boolean waitForElementClickable(WebElement element, int seconds) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, seconds);
             wait.until(ExpectedConditions.elementToBeClickable(element));
@@ -182,12 +177,12 @@ public class AbstractPage {
     }
 
     /**
-     *
+     * Method return boolean is element is present after (int) seconds
      * @param element whats u want to find
      * @param timeInSeconds time of search
      * @return boolean true -  if find, false - if not find
      */
-    public boolean waitForElement(WebElement element, int timeInSeconds){
+    public boolean waitForElementPresent(WebElement element, int timeInSeconds){
 
         try{
             WebDriverWait wait = new WebDriverWait(driver, timeInSeconds);
@@ -198,6 +193,30 @@ public class AbstractPage {
         }
     }
 
+    /**
+     * Method return boolean is url contains word in url due waitingTime
+     * @param contains expected url piece
+     * @param timeInSeconds waiting time
+     * @return boolean contains or not
+     */
+    public boolean waitForUrlContains(String contains, int timeInSeconds){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, timeInSeconds);
+            return wait.until(ExpectedConditions.urlContains(contains));
+        }catch (TimeoutException e){
+            return false;
+        }
+
+    }
+
+
+    /**
+     * Method will wait until page will loads(javascript feature -> document.readyState = 4 (complete )
+     */
+    public void waitForPageLoad() {
+        new WebDriverWait(driver, 30).until((ExpectedCondition<Boolean>) wd ->
+                ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
+    }
 
     /**
      * loop-based iterator method: Trying to find element every 500 ms, and return true, if it found.
@@ -221,45 +240,6 @@ public class AbstractPage {
         return displayed;
     }
 
-    public boolean waitUntil(WebElement elementWasDisplayed, int seconds) throws InterruptedException {
-
-        boolean displayed = isElementPresent(elementWasDisplayed);
-        int cc =  0;
-
-        try{
-            while (!displayed && cc < seconds){
-                Thread.sleep(1000);
-                displayed = isElementPresent(elementWasDisplayed);
-                cc++;
-            }
-            if(cc >= seconds){
-                return  false;
-            }
-        }catch (WebDriverException e){
-            e.getStackTrace();
-        }
-        return displayed;
-    }
-    /**
-     * Create new tab in current Browser window
-     */
-    public List<String> openNewTab(){
-        List<String>handles = new ArrayList<>();
-        body.sendKeys(Keys.CONTROL + "t");
-        handles.addAll(driver.getWindowHandles().stream().collect(Collectors.toList()));
-        return handles;
-    }
-
-
-    /**
-     * Switch to concrete window Tab in current WebDriver instance.
-     * @param tabHandleName String, name of window what you need to switch
-     */
-    public void switchToTab(String tabHandleName){
-        driver.switchTo().window(tabHandleName);
-    }
-
-
     /**
      * Advanced WebDriver webElement.click() action,
      * is verify, is element is present, and if true, click on it. Or throw exception.
@@ -275,11 +255,12 @@ public class AbstractPage {
     }
 
     /**
-     * Execute Javascript
+     * Execute Javascript command
      * @param script string javascript code
      */
     public void executeJS(String script){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script);
     }
+
 }
