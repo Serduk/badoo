@@ -74,4 +74,8 @@ public class RandomUtils {
 
         return  first+"@"+split[1];
     }
+
+    public String getTime(String separator) {
+        return  new SimpleDateFormat("HH"+separator+"mm"+separator+"ss").format(Calendar.getInstance().getTime());
+    }
 }
