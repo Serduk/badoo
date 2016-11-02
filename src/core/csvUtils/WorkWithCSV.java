@@ -27,7 +27,7 @@ public class WorkWithCSV {
     ConfigLoader config = new ConfigLoader();
     String saveFile = config.REPORTS_DIR + "/";
     String formatForFile = ".csv";          //@TODO look down
-    String saveToCSV = saveFile + randomUtils.getDateAndTime()+ formatForFile;
+    String saveToCSV = saveFile + randomUtils.getDateAndTime() + formatForFile;
 
     String tesDataReadFileName = "/testData";
     String testDataCSV = config.REPORTS_DIR + tesDataReadFileName + formatForFile;
@@ -91,6 +91,12 @@ public class WorkWithCSV {
         return csvPath;
     }
 
+    public String createAnyFile(String path, String name, String format) {
+        String anyFile = path + name + format;
+        new File(anyFile);
+        return anyFile;
+    }
+
     /**
      * Write array data to csv file
      *
@@ -115,20 +121,20 @@ public class WorkWithCSV {
 
     /**
      * @method Read from CSV for Data provider
-     *          User set site, location, traff sourse, gender, email, freePaid params in his csv file for registration user.
-     *          test run and get parameters for registration from csv file.
-     *          2nd method take absolute path & name for csv file
-     *          Methods return String array
-     *          In site column user add m. or wwww. dependence from site version
-     *          In CSV File separator must be comma ","
-     * */
+     * User set site, location, traff sourse, gender, email, freePaid params in his csv file for registration user.
+     * test run and get parameters for registration from csv file.
+     * 2nd method take absolute path & name for csv file
+     * Methods return String array
+     * In site column user add m. or wwww. dependence from site version
+     * In CSV File separator must be comma ","
+     */
     public Iterator<Object[]> csvReader() throws IOException {
-        Set<Object[]> result=new HashSet<Object[]>();
-        for (final String line: Files.readAllLines(Paths.get(config.REPORTS_DIR + "/" + "regTest.csv"),
+        Set<Object[]> result = new HashSet<Object[]>();
+        for (final String line : Files.readAllLines(Paths.get(config.REPORTS_DIR + "/" + "regTest.csv"),
                 StandardCharsets.UTF_8)) {
 
             result.add(new Object[]{
-                    "https://"+line.split(",")[0].replaceAll("\\s+",""),
+                    "https://" + line.split(",")[0].replaceAll("\\s+", ""),
                     line.split(",")[1],
                     line.split(",")[2].toLowerCase(),
                     line.split(",")[3].toLowerCase(),
@@ -140,29 +146,21 @@ public class WorkWithCSV {
     }
 
     public Iterator<Object[]> csvReader(String absolutePath) throws IOException {
-        Set<Object[]> result=new HashSet<Object[]>();
-        for (final String line: Files.readAllLines(Paths.get(absolutePath),
-                StandardCharsets.UTF_8)) {
-
-            result.add(new Object[]{
-                    line.split(",")
-            });
-//                    "https://"+line.split(",")[0].replaceAll("\\s+",""),
-//                    line.split(",")[1], line.split(",")[2].toLowerCase(),
-//                    line.split(",")[3].toLowerCase(), line.split(",")[4].toLowerCase(),
-//                    line.split(",")[5].toLowerCase()}); //site, location, traff sourse, gender, email, freePaid
+        Set<Object[]> result = new HashSet<>();
+        for (String line : Files.readAllLines(Paths.get(absolutePath), StandardCharsets.UTF_8)) {
+            Collections.addAll(result, line.split(","));
         }
         System.out.println(result.size());
         return result.iterator();
     }
 
     public Iterator<Object[]> csvGenerateUsers(String absolutePath) throws IOException {
-        Set<Object[]> result=new HashSet<Object[]>();
-        for (final String line: Files.readAllLines(Paths.get(absolutePath),
+        Set<Object[]> result = new HashSet<Object[]>();
+        for (final String line : Files.readAllLines(Paths.get(absolutePath),
                 StandardCharsets.UTF_8)) {
 
             result.add(new Object[]{
-                    "https://"+line.split(",")[0],
+                    "https://" + line.split(",")[0],
                     line.split(",")[1],
                     line.split(",")[2].toLowerCase(),
                     line.split(",")[3].toLowerCase(),

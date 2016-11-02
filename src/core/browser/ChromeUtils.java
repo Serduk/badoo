@@ -1,10 +1,13 @@
 package core.browser;
 
 
+import core.constans.ConfirmAuthDataForProxy;
 import core.constans.LocaleData;
+import core.constans.LocationsProxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.HashMap;
@@ -70,6 +73,58 @@ public class ChromeUtils {
 
         options.setExperimentalOption("mobileEmulation", mobileEmulation);
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        driver = new ChromeDriver(capabilities);
+        driver.manage().timeouts().implicitlyWait(wait, TimeUnit.SECONDS);
+
+        return driver;
+    }
+
+    /*
+* Create browser instans with paid proxy (Adclarity)
+* */
+    public WebDriver getMobWithProxy(String location) {
+        Map<String, String> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceName", "Google Nexus 5");
+
+        ConfirmAuthDataForProxy dataProxy = new ConfirmAuthDataForProxy(location);
+        dataProxy.setProxy();
+        options.addArguments("load-extension=" + dataProxy.saveFile);
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+
+        driver = new ChromeDriver(capabilities);
+        driver.manage().timeouts().implicitlyWait(wait, TimeUnit.SECONDS);
+
+        return driver;
+    }
+
+    public WebDriver getWEBWithProxy(String location) {
+        ConfirmAuthDataForProxy dataProxy = new ConfirmAuthDataForProxy(location);
+        dataProxy.setProxy();
+        options.addArguments("load-extension=" + dataProxy.saveFile);
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        driver = new ChromeDriver(capabilities);
+        driver.manage().window().maximize();
+
+        return driver;
+    }
+
+    public WebDriver getWEBFreeProxy(String location) {
+        LocationsProxy country = LocationsProxy.valueOf(location.toUpperCase());
+        String proxyLocation = country.getProxy() + ":" + country.getPort();
+
+        org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
+        proxy.setHttpProxy(proxyLocation)
+                .setSslProxy(proxyLocation)
+                .setSocksProxy(proxyLocation);
+        capabilities.setCapability(CapabilityType.PROXY, proxy);
+
 
         driver = new ChromeDriver(capabilities);
         driver.manage().timeouts().implicitlyWait(wait, TimeUnit.SECONDS);

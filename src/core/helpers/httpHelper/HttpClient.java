@@ -86,7 +86,7 @@ public class HttpClient {
      * @return HttpClient
      * @throws UnsupportedEncodingException
      */
-    public core.helpers.httpHelper.HttpClient post(String url, List<NameValuePair> post) throws UnsupportedEncodingException {
+    public HttpClient post(String url, List<NameValuePair> post) throws UnsupportedEncodingException {
         postRequest = new HttpPost(url);
         postRequest.setEntity(new UrlEncodedFormEntity(post));
 
@@ -99,7 +99,7 @@ public class HttpClient {
      * @param value value of header
      * @return HttpClient
      */
-    public core.helpers.httpHelper.HttpClient setHeader(String key, String value) {
+    public HttpClient setHeader(String key, String value) {
         if (getRequest != null) {
             getRequest.addHeader(key, value);
         }
@@ -116,7 +116,7 @@ public class HttpClient {
      * @param value value of cookie
      * @return HttpClient
      */
-    public core.helpers.httpHelper.HttpClient setCookie(String url, String key, String value) {
+    public HttpClient setCookie(String url, String key, String value) {
         BasicClientCookie cookie = new BasicClientCookie(key, value);
         cookieStore.addCookie(cookie);
         String domain = url.split("//")[1];
@@ -132,7 +132,7 @@ public class HttpClient {
      * @return HttpClient
      * @throws IOException
      */
-    public core.helpers.httpHelper.HttpClient execute() throws IOException {
+    public HttpClient execute() throws IOException {
         HttpClientContext context = HttpClientContext.create();
         try {
             String mobSite = "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.23 Mobile Safari/537.3";
@@ -227,7 +227,7 @@ public class HttpClient {
     }
 
 
-    public core.helpers.httpHelper.HttpClient setXHRHeader() {
+    public HttpClient setXHRHeader() {
 
         this.setHeader(com.google.common.net.HttpHeaders.X_REQUESTED_WITH, "XMLHttpRequest");
         return this;
