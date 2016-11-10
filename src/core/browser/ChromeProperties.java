@@ -1,6 +1,7 @@
 package core.browser;
 
 /**
+ * This method take OS propertyes and return absolute path for chrome driver for windows and unix system
  * Created by serdyuk on 6/3/16.
  */
 public class ChromeProperties {
