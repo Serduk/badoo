@@ -4,18 +4,19 @@ package core.browser;
  * Created by serdyuk on 6/3/16.
  */
 public class ChromeProperties {
-    private String unixPath = "resources/chromedriver_x64";
-    private String winPath = "resources/chromedriver.exe";
-
-    String osName = System.getProperty("os.name").toLowerCase();
+    private String osName = System.getProperty("os.name").toLowerCase();
+    private String osArch = System.getProperty("os.arch").toLowerCase();
 
     public String osDetection() {
         if (osName.contains("linux") || osName.contains("nix")) {
-            return unixPath;
+            if (osArch.contains("64")) {
+                return "resources/chromedriver_x64";
+            }
+            return "resources/chromedriver";
         } else if (osName.contains("mac") || osName.contains("osX")) {
-            return "not found";
+            return "resources/chromedriver_osX";
         } else {
-            return winPath;
+            return "resources/chromedriver.exe";
         }
     }
 }
