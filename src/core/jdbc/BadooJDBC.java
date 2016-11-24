@@ -44,12 +44,12 @@ public class BadooJDBC {
     }
 
     /**
-     * @return result of table "ag_sites"
+     * @return result of table "al_sites"
      * @throws SQLException see example @ test.example.dataproviderExample.dataProviderSitesExample
      */
     public Object[][] getAGSites() throws SQLException {
         db.connect();
-        Object[][] result = db.query("SELECT siteLink from ag");
+        Object[][] result = db.query("SELECT siteLink from al");
         db.disconnect();
         return result;
     }
