@@ -1,6 +1,7 @@
 package core.configs;
 
 /**
+ * Class with all passwords and keyDatas
  * Created by serdyuk on 6/12/16.
  */
 public class ConfigLoader {
@@ -22,4 +23,12 @@ public class ConfigLoader {
 
     public static final String ADCLARITY_LOGIN = "myAdclarityLogin";
     public static final String ADCLARITY_PASSWORD = "myPassword";
+
+    /**
+     * DATA BASE CONNECTIONS
+     */
+    public final String DB_URL = "jdbc:mysql://127.0.0.1:3306";
+    public final String DB_NAME = "badoo";
+    public final String DB_USER = "root";
+    public final String DB_PASS = "111";
 }
