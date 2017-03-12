@@ -9,10 +9,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <allure.version>1.4.16</allure.version>
+        <allure.version>{latest-allure-version}</allure.version>
         <aspectj.version>1.8.5</aspectj.version>
         <test.xml>testng.xml</test.xml>
-        <!--default suite file-->
+        <report.dir>${project.build.directory}${file.separator}surefire-reports</report.dir>
     </properties>
 
     <build>
@@ -24,14 +24,64 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.14</version>
                 <configuration>
+                    <reportsDirectory>${report.dir}</reportsDirectory>
+                    <properties>
+                        <property>
+                            <name>reporter</name>
+                            <value>core.reporterUtil.Reporter</value>
+                        </property>
+                    </properties>
+
+
+                    <!--for Smoke tests, runing paramteter-->
+                    <systemPropertyVariables>
+                        <!--Dinstance={local\remote} run browsers on grid or local machines-->
+                        <instance>local</instance>
+                        <!--Dshots={true\false}  is need to take screenShots (for allure)-->
+                        <shots>true</shots>
+                        <!--&#45;&#45;Denv={true\false} is need to create environment file (for allure)-->
+                        <env>true</env>
+                        <!--Dbuild={rel/live}  is need to select environment [rel/live]-->
+                        <camsbuild>live</camsbuild>
+                        <!--Dplatfotm={webSite/mobSite}  is need to select platform [web/mob]-->
+                        <platform>webSite</platform>
+                        <!--Dcamsautologins=true/false}  is need to define direct registration in tests or usage of already registered users-->
+                        <camsautologins>true</camsautologins>
+                        <!--Dcamstheme={air/charm}  is need to select platform [web/mob]-->
+                        <camstheme>charm</camstheme>
+                        <!--Dccmodel={1/2}  is need to select ccmodel-->
+                        <ccmodel>1</ccmodel>
+                        <!--Dccmodel={integer value 1 ... 5000}  is need for firecams search blocks test-->
+                        <searchlimit>1000</searchlimit>
+                        <!--Dlocations=all/nor/nor,dnk,pol  is need to select countries from LocationsCountriesData for tests-->
+                        <locations>all</locations>
+                        <!--Dsearchunits=search/categories/any one or several category, separated with comma, from FirecamsSearchCategories -->
+                        <searchunits>search</searchunits>
+                        <!--Dshowtestmodels=true/false This is used in PhoenixHelper, method findCamsUser() and is used to show test models in search for just registered user -->
+                        <showtestmodels>false</showtestmodels>
+                        <!--Dtrafficsource=direct/int/cpa/... selects a traffic source for registration. All list see in FirecamsTrafficSources-->
+                        <trafficsource>direct</trafficsource>
+                        <!--Damount=1/2/3...100... amount = number of users for registration in RegisterHugeAmountOfUsers test-->
+                        <amount>12</amount>
+                        <!--Dcamssplit=nor  now is used for Norway split for FirecamsSearchResults autotests-->
+                        <camssplit>undefined</camssplit>
+                        <!--Dforcesplit=true/false is used to force selected split to cams user. To use, -Dcamssplit should equals name in FirecamsSplits, -Dsplitgroup should be equal group which you want user been in-->
+                        <forcesplit>false</forcesplit>
+                        <!--Dsplitgroup=0,1,2,3 ... is user for -Dforcesplit, should be equal the group which you want to force to camsuser -->
+                        <splitgroup>0</splitgroup>
+                    </systemPropertyVariables>
                     <suiteXmlFiles>
+                        <!--<suiteXmlFile>${project.basedir}/runConfigs/camsAutotests/checkCamsPagesHTTPResponces.xml</suiteXmlFile>-->
                         <suiteXmlFile>${project.basedir}/runConfigs/${test.xml}</suiteXmlFile>
                     </suiteXmlFiles>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
+                    <parallel>methods</parallel>
+                    <threadCount>1</threadCount>
                 </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
@@ -55,20 +105,20 @@
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.reporting</groupId>
-                <artifactId>maven-reporting</artifactId>
-                <version>2.2.1</version>
-            </plugin>
-            <plugin>
-                <groupId>ru.yandex.qatools.allure</groupId>
-                <artifactId>allure-maven-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-        </plugins>
-    </reporting>
+    <!--<reporting>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.reporting</groupId>-->
+    <!--<artifactId>maven-reporting</artifactId>-->
+    <!--<version>2.2.1</version>-->
+    <!--</plugin>-->
+    <!--<plugin>-->
+    <!--<groupId>ru.yandex.qatools.allure</groupId>-->
+    <!--<artifactId>allure-maven-plugin</artifactId>-->
+    <!--<version>2.2</version>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--</reporting>-->
 
     <dependencies>
         <dependency>
@@ -96,15 +146,26 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.38</version>
         </dependency>
         <dependency>
+            <groupId>br.eti.kinoshita</groupId>
+            <artifactId>testlink-java-api</artifactId>
+            <version>1.9.13-0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -114,7 +175,7 @@
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-testng-adaptor</artifactId>
-            <version>${allure.version}</version>
+            <version>1.5.0.RC2</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -131,14 +192,40 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.4</version>
         </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-client</artifactId>
+            <version>0.8.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-client-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-grizzly-client</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
-
 </project>
-
-<!--
-
-//    mvn -Dtest=TestRun clean test
-//    mvn -Dtest=TestRun -Ddataproviderthreadcount=5 test
-
-
--->

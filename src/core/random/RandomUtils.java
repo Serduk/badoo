@@ -78,4 +78,11 @@ public class RandomUtils {
     public String getTime(String separator) {
         return  new SimpleDateFormat("HH"+separator+"mm"+separator+"ss").format(Calendar.getInstance().getTime());
     }
+
+    public static int genInt(int from, int to) {
+        int tmp = 0;
+        if (to >= from)
+            tmp = (int) (from + Math.round((Math.random() * (to - from))));
+        return tmp;
+    }
 }
