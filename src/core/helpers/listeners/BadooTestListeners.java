@@ -69,8 +69,8 @@ public class BadooTestListeners implements ITestListener{
             String name = getTestMethodName(iTestResult) + "_FAILED_" + rand.getTime("-");
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             try {
-                FileUtils.copyFile(scrFile, new File(cfg.REPORTS_DIR + "/" + name + ".png"));
-                System.out.println("\033[1;31m[FAIL] Screen shot saved:  " + cfg.REPORTS_DIR +"/"+ name + ".png \033[0m");
+                FileUtils.copyFile(scrFile, new File(ConfigLoader.REPORTS_DIR + "/" + name + ".png"));
+                System.out.println("\033[1;31m[FAIL] Screen shot saved:  " + ConfigLoader.REPORTS_DIR +"/"+ name + ".png \033[0m");
             } catch (IOException e) {
                 e.printStackTrace();
             }

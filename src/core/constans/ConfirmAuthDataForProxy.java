@@ -24,7 +24,7 @@ public class ConfirmAuthDataForProxy {
     private WorkWithCSV fileCreate = new WorkWithCSV();
 
     //Set path for tmp save proxy configs
-    public String saveFile = config.REPORTS_DIR + "/proxyData/";
+    public String saveFile = ConfigLoader.REPORTS_DIR + "/proxyData/";
 
     private String jsForProxy;
     private String manifestJson;

@@ -1,6 +1,7 @@
 package core.csvUtils;
 
 /**
+ * Class for work with CSV file.
  * Created by serdyuk on 6/12/16.
  */
 
@@ -17,20 +18,20 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * @Method for work with CSV file.
+ * Method for work with CSV file.
  * ExampleSite: http://www.mkyong.com/java/how-to-export-data-to-csv-file-java/
  * ExampleSite: http://www.csvreader.com/java_csv_samples.php
  */
 
 public class WorkWithCSV {
-    RandomUtils randomUtils = new RandomUtils();
+    private RandomUtils randomUtils = new RandomUtils();
     ConfigLoader config = new ConfigLoader();
-    String saveFile = config.REPORTS_DIR + "/";
-    String formatForFile = ".csv";          //@TODO look down
+    private String saveFile = ConfigLoader.REPORTS_DIR + "/";
+    private String formatForFile = ".csv";          //@TODO look down
     String saveToCSV = saveFile + randomUtils.getDateAndTime() + formatForFile;
 
-    String tesDataReadFileName = "/testData";
-    String testDataCSV = config.REPORTS_DIR + tesDataReadFileName + formatForFile;
+    private String tesDataReadFileName = "/testData";
+    String testDataCSV = ConfigLoader.REPORTS_DIR + tesDataReadFileName + formatForFile;
 
 
     /**
@@ -102,7 +103,7 @@ public class WorkWithCSV {
      *
      * @param csvFile Absolute path to csv file
      * @param data    ArrayList of data
-     * @throws IOException
+     * throws IOException
      */
     public void writeToCsv(String csvFile, HashMap<String, String> data) throws IOException {
 
@@ -120,7 +121,7 @@ public class WorkWithCSV {
     }
 
     /**
-     * @method Read from CSV for Data provider
+     * method Read from CSV for Data provider
      * User set site, location, traff sourse, gender, email, freePaid params in his csv file for registration user.
      * test run and get parameters for registration from csv file.
      * 2nd method take absolute path & name for csv file
@@ -129,8 +130,8 @@ public class WorkWithCSV {
      * In CSV File separator must be comma ","
      */
     public Iterator<Object[]> csvReader() throws IOException {
-        Set<Object[]> result = new HashSet<Object[]>();
-        for (final String line : Files.readAllLines(Paths.get(config.REPORTS_DIR + "/" + "regTest.csv"),
+        Set<Object[]> result = new HashSet<>();
+        for (final String line : Files.readAllLines(Paths.get(ConfigLoader.REPORTS_DIR + "/" + "regTest.csv"),
                 StandardCharsets.UTF_8)) {
 
             result.add(new Object[]{
@@ -155,7 +156,7 @@ public class WorkWithCSV {
     }
 
     public Iterator<Object[]> csvGenerateUsers(String absolutePath) throws IOException {
-        Set<Object[]> result = new HashSet<Object[]>();
+        Set<Object[]> result = new HashSet<>();
         for (final String line : Files.readAllLines(Paths.get(absolutePath),
                 StandardCharsets.UTF_8)) {
 

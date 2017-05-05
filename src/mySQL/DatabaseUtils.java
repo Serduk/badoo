@@ -21,8 +21,8 @@ public class DatabaseUtils {
     private Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
-            properties.setProperty("user", config.DB_USER);
-            properties.setProperty("password", config.DB_PASS);
+            properties.setProperty("user", ConfigLoader.DB_USER);
+            properties.setProperty("password", ConfigLoader.DB_PASS);
         }
         return properties;
     }
@@ -31,7 +31,7 @@ public class DatabaseUtils {
         if (connection == null) {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                String url = config.DB_URL + "/" + config.DB_NAME;
+                String url = ConfigLoader.DB_URL + "/" + ConfigLoader.DB_NAME;
                 connection = DriverManager.getConnection(url, getProperties());
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();

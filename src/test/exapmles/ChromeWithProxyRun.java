@@ -2,6 +2,7 @@ package test.exapmles;
 
 import core.browser.ChromeUtils;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -29,5 +30,10 @@ public class ChromeWithProxyRun {
         driver = chromeBrowser.getMobWithProxy("USA");
 
         driver.get("https://2ip.ru");
+    }
+
+    @AfterTest
+    public void cleanUP() {
+        driver.quit();
     }
 }
