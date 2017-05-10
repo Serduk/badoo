@@ -83,4 +83,9 @@ public class ConfigLoader {
     public final static String CARDS_CARD_HOLDER = "John Doe";
     public final static String CARDS_CARD_HOLDER_FIRST = "John";
     public final static String CARDS_CARD_HOLDER_LAST = "Doe";
+
+    /**
+     * Test data for users
+     */
+    public final static String TEST_PASSWORD_FOR_REG_ON_SITES = "password123";
 }
