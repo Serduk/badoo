@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="providerTest" data-provider-thread-count="5" parallel="methods">
+    <test name="providerTest">
+        <classes>
+            <class name="test.exapmles.parallel.ParallelTestExample"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,6 @@
+----RUN XML FILE FROM MAVEN-----
+mvn -Dtest.xml={PATH TO XML FILE}.xml test
+
+
+----RUN TEST FROM MAVEN----
+-Dtest={TestName} -Ddataproviderthreadcount={count} test
