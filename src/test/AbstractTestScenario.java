@@ -1,7 +1,7 @@
 package test;
 
 import core.csvUtils.WorkWithCSV;
-import core.helpers.listeners.BadooTestListeners;
+import core.helpers.listeners.BadooTestNGListener;
 import core.random.RandomUtils;
 import exceptions.BadooException;
 import mySQL.DatabaseUtils;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Abstract init class most used tools;
  * Created by serdyuk on 6/25/16.
  */
-@Listeners(value = BadooTestListeners.class)
+@Listeners(value = BadooTestNGListener.class)
 public abstract class AbstractTestScenario {
 
     protected RandomUtils random;
