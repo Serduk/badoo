@@ -87,5 +87,7 @@ public class ConfigLoader {
     /**
      * Test data for users
      */
+    public final static String TEST_EMAIL_FOR_REG_ON_SITES = "email@mail.com";
     public final static String TEST_PASSWORD_FOR_REG_ON_SITES = "password123";
+    public final static String TEST_GENDER_FOR_REG_ON_SITES = "m";
 }
