@@ -24,11 +24,11 @@ public class ParallelTestExample {
     @DataProvider(name = "dp", parallel = true) //parallel = true is important, if false - test will be run in one thread;
     public Object[][] parseLocaleData() {
         return new Object[][]{
-                {"https://mynaughtydreams.com"},
-                {"https://naughtyluck.com"},
-                {"https://naughtyavenue.com"},
-                {"https://getNaughty.com"},
-                {"https://shagtogether.com"}
+                {"https://ya.ru"},
+                {"https://google.com"},
+                {"https://duck.com"},
+                {"https://facebook.com"},
+                {"https://badoo.com"}
         };
     }
 
