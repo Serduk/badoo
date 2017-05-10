@@ -218,17 +218,17 @@ public class BadooHelper {
             e.printStackTrace();
         } catch (JSONException e) {
             //обработчик 500й в админке
-            for (Map.Entry<Integer,String> resp: http.getStatusCode().entrySet()){
-                if (!resp.getKey().equals(200)){
+            for (Map.Entry<Integer, String> resp : http.getStatusCode().entrySet()) {
+                if (!resp.getKey().equals(200)) {
                     try {
-                        throw new BadooException("Phoenix admin Panel in not available. HTTP Response: " + resp.getKey() + " " +  resp.getValue());
+                        throw new BadooException("Phoenix admin Panel in not available. HTTP Response: " + resp.getKey() + " " + resp.getValue());
                     } catch (BadooException e1) {
                         e1.printStackTrace();
                     }
                 }
             }
             //обработчик неверных данных авторизации в админке
-            if (http.getContent().contains("Sign in")){
+            if (http.getContent().contains("Sign in")) {
                 try {
                     throw new BadooException("Can't access to admin panel! Login: " + ConfigLoader.STREAM_LIVE_ADMIN_DOMAIN +
                             " Password: " + adminPassword + " is incorrect!");
@@ -286,16 +286,16 @@ public class BadooHelper {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-            for (Map.Entry<Integer,String> resp: http.getStatusCode().entrySet()){
-                if (!resp.getKey().equals(200)){
+            for (Map.Entry<Integer, String> resp : http.getStatusCode().entrySet()) {
+                if (!resp.getKey().equals(200)) {
                     try {
-                        throw new BadooException("Phoenix admin Panel in not available. HTTP Response: " + resp.getKey() + " " +  resp.getValue());
+                        throw new BadooException("Phoenix admin Panel in not available. HTTP Response: " + resp.getKey() + " " + resp.getValue());
                     } catch (BadooException e1) {
                         e1.printStackTrace();
                     }
                 }
             }
-            if (http.getContent().contains("Sign in")){
+            if (http.getContent().contains("Sign in")) {
                 try {
                     throw new BadooException("Can't access to admin panel! Login: " + ConfigLoader.STREAM_LIVE_ADMIN_DOMAIN +
                             " Password: " + adminPassword + " is incorrect!");
@@ -413,7 +413,7 @@ public class BadooHelper {
 //
 //    }
 
-    private void loginAdminPanel(){
+    private void loginAdminPanel() {
         HashMap<String, Object> form = new HashMap<>();
         form.put("YII_CSRF_TOKEN", "");
         form.put("AdminLoginForm[login]", ConfigLoader.STREAM_LIVE_ADMIN_DOMAIN);

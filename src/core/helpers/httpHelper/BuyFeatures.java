@@ -25,49 +25,54 @@ public class BuyFeatures {
 
     String currency;
 
-    public BuyFeatures(BadooHelper BadooHelper){
+    public BuyFeatures(BadooHelper BadooHelper) {
         helper = BadooHelper;
         json = helper.getUserJson();
-        http  = helper.http;
-        try{
+        http = helper.http;
+        try {
             JSONObject data = json.getJSONObject("featuresPackages");
             JSONArray names = data.names();
-            for (int i = 0; i < data.length(); i++){
+            for (int i = 0; i < data.length(); i++) {
                 JSONObject item = data.getJSONObject((String) names.get(i));
-                switch ((String) item.getJSONObject("package").get("title"))
-                {
-                    case "Search Upgrade" : packages.put("searchUpgrade", (String) names.get(i)); break;
-                    case "Full Upgrade": packages.put("fullUpgrade", (String) names.get(i)); break;
-                    case "Communication Upgrade": packages.put("communicationUpgrade", (String) names.get(i)); break;
+                switch ((String) item.getJSONObject("package").get("title")) {
+                    case "Search Upgrade":
+                        packages.put("searchUpgrade", (String) names.get(i));
+                        break;
+                    case "Full Upgrade":
+                        packages.put("fullUpgrade", (String) names.get(i));
+                        break;
+                    case "Communication Upgrade":
+                        packages.put("communicationUpgrade", (String) names.get(i));
+                        break;
                 }
             }
             currency = data.getJSONObject((String) names.get(1)).getJSONObject("price").getJSONObject("currency").getJSONObject("literal").getString("code");
-        }catch (JSONException e){
+        } catch (JSONException e) {
             System.out.println("cant find packages");
         }
 
     }
 
-    public BadooHelper searchUpgrade()   {
+    public BadooHelper searchUpgrade() {
         processing(packages.get("searchUpgrade"));
         helper.outputData.put("features", "searchUpgrade");
         return helper;
     }
 
-    public BadooHelper fullUpgrade()   {
+    public BadooHelper fullUpgrade() {
         processing(packages.get("fullUpgrade"));
         helper.outputData.put("features", "fullUpgrade");
         return helper;
     }
 
-    public BadooHelper communicationUpgrade()   {
+    public BadooHelper communicationUpgrade() {
         processing(packages.get("communicationUpgrade"));
         helper.outputData.put("features", "communicationUpgrade");
         return helper;
     }
 
-    private void processing(String packageId)   {
-        http.get(helper.siteLink+"/site/autologin/key/"+json.getString("autologinKey"));
+    private void processing(String packageId) {
+        http.get(helper.siteLink + "/site/autologin/key/" + json.getString("autologinKey"));
         http.execute();
 
         http.get(helper.siteLink + "/pay/features");

@@ -17,8 +17,8 @@ import java.util.regex.PatternSyntaxException;
  * Created by serdyuk on 5/10/17.
  */
 public class BuyCamCredits {
-    private       BadooHelper helper;
-    private final HttpClient    http;
+    private BadooHelper helper;
+    private final HttpClient http;
     private final JSONObject json;
     private List<String> packages;
     String currency;
@@ -34,10 +34,10 @@ public class BuyCamCredits {
         http.get(helper.siteLink + "/pay/liveCamCredits");
         http.execute();
         try {
-            String pattern         = "<input id=\"package(.*?)\"";
+            String pattern = "<input id=\"package(.*?)\"";
             String currencyPattern = "WebcamCreditCardPaymentForm_currency_code\" type=\"hidden\" value=\"(.*?)\"";
             packages = new ArrayList<>();
-            Matcher m  = Pattern.compile(pattern)
+            Matcher m = Pattern.compile(pattern)
                     .matcher(http.content);
             Matcher m2 = Pattern.compile(currencyPattern)
                     .matcher(http.content);
@@ -49,11 +49,9 @@ public class BuyCamCredits {
             } else {
                 throw new BadooException("Currency not found");
             }
-        }
-        catch (PatternSyntaxException e) {
+        } catch (PatternSyntaxException e) {
             System.out.println("patternException");
-        }
-        catch (BadooException e) {
+        } catch (BadooException e) {
             e.printStackTrace();
         }
     }

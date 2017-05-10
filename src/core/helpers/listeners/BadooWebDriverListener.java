@@ -15,15 +15,15 @@ import java.io.IOException;
 
 /**
  * Listener for WebDriver WebElement Actions  e.g (findBy, click, etc)
- *
+ * <p>
  * Created by serdyuk on 5/10/17.
  */
-public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
+public class BadooWebDriverListener extends AbstractWebDriverEventListener {
 
 
     WebDriver d_driver;
     By listeningElement;
-    Runnable  callableMethodForElement, methodOnException, methodOnValueChange;
+    Runnable callableMethodForElement, methodOnException, methodOnValueChange;
     RandomUtils rand;
 
     public BadooWebDriverListener(WebDriver driver) {
@@ -40,7 +40,7 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
 
     }
 
-    public void setMethodOnElementValueChange(Runnable runnable){
+    public void setMethodOnElementValueChange(Runnable runnable) {
         methodOnValueChange = runnable;
     }
 
@@ -56,8 +56,7 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
             if (isFound) {
                 try {
                     new Thread(callableMethodForElement).start();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -67,12 +66,11 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
     public void afterChangeValueOf(WebElement element, WebDriver driver) {
 
         Log.info("element value has change");
-        if(methodOnValueChange != null){
+        if (methodOnValueChange != null) {
             try {
                 new Thread(methodOnValueChange)
                         .start();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -89,8 +87,7 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
                 try {
                     new Thread(callableMethodForElement)
                             .start();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -98,29 +95,26 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
     }
 
 
-
     public void takeAShot(String viewName) {
 
         String currentTestName = BadooTestNGListener.getMethodName(BadooTestNGListener.getCurrentTestResult());
-        String name            = viewName + "_" + currentTestName + "_FAILED_" + rand.getTime("-");
+        String name = viewName + "_" + currentTestName + "_FAILED_" + rand.getTime("-");
         try {
             File srcFile = makeScreenShot();
             FileUtils.copyFile(srcFile, new File(ConfigLoader.REPORTS_DIR + "/" + name + ".png"));
             String link = AbstractPage.uploadFile(name + ".png", ConfigLoader.REPORTS_DIR);
             makeScreenShotAllure();
-            Throwable throwable       = BadooTestNGListener.getCurrentTestResult().getThrowable();
-            String    originalMessage = throwable.getMessage();
-            String    newMessage      = "[TEST]: " + currentTestName + "[FAILED]\n [SCREENSHOT]: " + link+"\n";
+            Throwable throwable = BadooTestNGListener.getCurrentTestResult().getThrowable();
+            String originalMessage = throwable.getMessage();
+            String newMessage = "[TEST]: " + currentTestName + "[FAILED]\n [SCREENSHOT]: " + link + "\n";
             BadooTestNGListener.printTestStatus("[SCREENSHOT]", link, "\033[1;31m [FAILED] \033[0m");
 
             try {
-                FieldUtils.writeField(throwable, "detailMessage", newMessage+originalMessage, true);
-            }
-            catch (Exception e) {
+                FieldUtils.writeField(throwable, "detailMessage", newMessage + originalMessage, true);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -130,8 +124,7 @@ public class BadooWebDriverListener  extends AbstractWebDriverEventListener {
         if (methodOnException != null) {
             try {
                 new Thread(methodOnException).start();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

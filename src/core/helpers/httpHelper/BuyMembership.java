@@ -24,56 +24,63 @@ public class BuyMembership {
 
     String currency;
 
-    public BuyMembership(BadooHelper BadooHelper ){
+    public BuyMembership(BadooHelper BadooHelper) {
         helper = BadooHelper;
         json = helper.getUserJson();
-        http  = helper.http;
-        try{
+        http = helper.http;
+        try {
             JSONObject data = json.getJSONObject("membershipPackages");
             JSONArray names = data.names();
-            for (int i = 0; i < data.length(); i++){
+            for (int i = 0; i < data.length(); i++) {
                 JSONObject item = data.getJSONObject((String) names.get(i));
-                switch ((String) item.getJSONObject("package").get("interval"))
-                {
-                    case "3" : packages.put("threeDays", (String) names.get(i)); break;
-                    case "28": packages.put("oneMonth", (String) names.get(i)); break;
-                    case "84": packages.put("threeMonths", (String) names.get(i)); break;
-                    case "168": packages.put("sixMonths", (String) names.get(i)); break;
+                switch ((String) item.getJSONObject("package").get("interval")) {
+                    case "3":
+                        packages.put("threeDays", (String) names.get(i));
+                        break;
+                    case "28":
+                        packages.put("oneMonth", (String) names.get(i));
+                        break;
+                    case "84":
+                        packages.put("threeMonths", (String) names.get(i));
+                        break;
+                    case "168":
+                        packages.put("sixMonths", (String) names.get(i));
+                        break;
                 }
             }
             currency = data.getJSONObject((String) names.get(1)).getJSONObject("price").getJSONObject("currency").getJSONObject("literal").getString("code");
-        }catch (JSONException e){
+        } catch (JSONException e) {
             System.out.println("cant find packages");
         }
     }
 
-    public BadooHelper threeDays()   {
+    public BadooHelper threeDays() {
         processing(packages.get("threeDays"));
         helper.outputData.put("membership", "3days");
         return helper;
     }
 
-    public BadooHelper oneMonth()   {
+    public BadooHelper oneMonth() {
         processing(packages.get("oneMonth"));
         helper.outputData.put("membership", "oneMonth");
 
         return helper;
     }
 
-    public BadooHelper threeMonth()   {
+    public BadooHelper threeMonth() {
         processing(packages.get("threeMonth"));
         helper.outputData.put("membership", "threeMonth");
         return helper;
     }
 
-    public BadooHelper sixMonth()   {
+    public BadooHelper sixMonth() {
         processing(packages.get("sixMonth"));
         helper.outputData.put("membership", "sixMonth");
         return helper;
     }
 
-    private void processing(String packageId)   {
-        http.get(helper.siteLink+"/site/autologin/key/"+json.getString("autologinKey"));
+    private void processing(String packageId) {
+        http.get(helper.siteLink + "/site/autologin/key/" + json.getString("autologinKey"));
         http.execute();
 
         http.get(helper.siteLink + "/pay/membership");
@@ -112,7 +119,7 @@ public class BuyMembership {
         http.setHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8");
         http.setHeader(HttpHeaders.CONNECTION, "keep-alive");
 
-        http.post(helper.siteLink +"/pay/pay?product_id=1" +
+        http.post(helper.siteLink + "/pay/pay?product_id=1" +
                         "&domain=" + json.getString("siteName") +
                         "&user_id=" + json.getString("userId") +
                         "&user_country=" + json.getString("country") +
