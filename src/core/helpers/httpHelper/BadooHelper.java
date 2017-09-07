@@ -84,7 +84,7 @@ public class BadooHelper {
      * @return this;
      * @throws IOException
      */
-    public BadooHelper datingRegistration(boolean mobSiteRegistration) throws IOException {
+    public BadooHelper datingRegistration(boolean mobSiteRegistration) {
 
         http.mobileUserAgent = mobSiteRegistration;
         if (mobSiteRegistration) {
@@ -107,10 +107,14 @@ public class BadooHelper {
 
         http.get(siteLink + "/admin2/");
         http.setCookie(siteLink, "ip_address", ip_address);
-        http.execute();
-        http.get(siteLink + trafficSource);
-        http.post(siteLink + "/user/register", regForm);
-        http.execute();
+        try {
+            http.execute();
+            http.get(siteLink + trafficSource);
+            http.post(siteLink + "/user/register", regForm);
+            http.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Dating user registered with email: "+email);
 
         return this;
