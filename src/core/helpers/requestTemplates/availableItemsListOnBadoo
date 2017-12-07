@@ -1,0 +1,31 @@
+{"query":"{
+    viewer{
+        stores(id:\"PLACEHOLDER\"){
+            id,
+            name,
+            products{
+                edges{
+                    node{
+                        id,
+                        name,
+                        isAvailableInStore,
+                        productType,
+                        productCategory,
+                        productFlags{
+                            id,
+                            name,
+                            icon{
+                                width,
+                                height,
+                                url
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }",
+ "variables":null,
+ "operationName":null
+}

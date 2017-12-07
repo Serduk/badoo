@@ -1,6 +1,6 @@
 package test;
 
-import core.csvUtils.WorkWithCSV;
+import core.utils.CSVUtils;
 import core.helpers.listeners.BadooTestNGListener;
 import core.random.RandomUtils;
 import exceptions.BadooException;
@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 public abstract class AbstractTestScenario {
 
     protected RandomUtils random;
-    protected WorkWithCSV csvWorker;
+    protected CSVUtils csvWorker;
     protected DatabaseUtils db;
     protected String bufferFile;
     private static Map<Runnable, Long> scheduledTasks = Collections.synchronizedMap(new HashMap<>());
     private static final int scheduledExecutorsLoop = 5;
 
     public AbstractTestScenario() {
-        csvWorker = new WorkWithCSV();
+        csvWorker = new CSVUtils();
         random = new RandomUtils();
         db = new DatabaseUtils();
     }

@@ -3,7 +3,7 @@ package test.tests_API;
 import com.google.common.net.HttpHeaders;
 import core.configs.ConfigLoader;
 import core.constans.CamsModelProviders;
-import core.csvUtils.WorkWithCSV;
+import core.utils.CSVUtils;
 import core.helpers.httpHelper.HttpClient;
 import core.helpers.userHelper.DatingUser;
 import core.helpers.userHelper.PaidStatus;
@@ -57,7 +57,7 @@ public class ModelProviderTest extends AbstractTestScenario {
 
     @DataProvider(name = "dp", parallel = false)
     public Iterator<Object[]> provider() throws IOException {
-        WorkWithCSV csv = new WorkWithCSV();
+        CSVUtils csv = new CSVUtils();
         return csv.csvReader(ConfigLoader.REPORTS_DIR + "/" + "modelProviderTest.csv");
     }
 

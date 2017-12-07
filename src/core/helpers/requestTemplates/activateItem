@@ -1,0 +1,6 @@
+{"query" : "mutation{
+                    activateStore(input:{storeId: \"PLACEHOLDER\"})
+                        {clientMutationId}
+                    }",
+ "variables" : null
+}

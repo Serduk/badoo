@@ -1,7 +1,7 @@
 package core.constans;
 
 import core.configs.ConfigLoader;
-import core.csvUtils.WorkWithCSV;
+import core.utils.CSVUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public class ConfirmAuthDataForProxy {
 
 
     private ConfigLoader config = new ConfigLoader();
-    private WorkWithCSV fileCreate = new WorkWithCSV();
+    private CSVUtils fileCreate = new CSVUtils();
 
     //Set path for tmp save proxy configs
     public String saveFile = ConfigLoader.REPORTS_DIR + "/proxyData/";

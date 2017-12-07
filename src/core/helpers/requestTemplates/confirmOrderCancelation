@@ -1,0 +1,26 @@
+{"query":"mutation{
+             confirmOrderCancellation(input:{orderId:\"PLACEHOLDER\"}){
+              id,
+              products {
+                id
+                originalProductId
+              },
+              totalPrice,
+              totalBasePrice,
+              totalTax,
+              needAck,
+              totalBasePrice,
+              editCutOffTime,
+              pickupTime,
+              hasFeedback,
+              store {
+                id
+              },
+              pickupTime,
+              status,
+              statusReason,
+              paymentStatus
+            }
+          }",
+  "variables":null
+ }

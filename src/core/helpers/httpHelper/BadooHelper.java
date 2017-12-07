@@ -95,8 +95,6 @@ public class BadooHelper {
      * @return this;
      */
     public BadooHelper datingRegistration(boolean mobSiteRegistration) {
-<<<<<<< HEAD
-=======
         if (!siteLink.contains("://")) {
             if (isRel) {
                 siteLink += "http://" + siteLink;
@@ -110,7 +108,6 @@ public class BadooHelper {
             String[] parseSite = siteLink.split("://");
             siteLink = parseSite[0] + "://www." + parseSite[1];
         }
->>>>>>> 9b33d5cf25479e499ebd642f40cfd414bce24537
 
         http.mobileUserAgent = mobSiteRegistration;
 
@@ -134,17 +131,15 @@ public class BadooHelper {
 
         http.get(siteLink + "/admin2/");
         http.setCookie(siteLink, "ip_address", ip_address);
-<<<<<<< HEAD
         try {
             http.execute();
             http.get(siteLink + trafficSource);
             http.post(siteLink + "/user/register", regForm);
             http.execute();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Dating user registered with email: "+email);
-=======
         http.execute();
         http.get(siteLink + trafficSource);
         http.post(siteLink + "/user/register", regForm);
@@ -201,7 +196,6 @@ public class BadooHelper {
         http.post(siteLink + "/user/register", regForm);
         http.execute();
         System.out.println("Cams user registered with email: " + email);
->>>>>>> 9b33d5cf25479e499ebd642f40cfd414bce24537
 
         return this;
     }

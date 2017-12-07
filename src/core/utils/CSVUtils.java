@@ -23,7 +23,7 @@ import java.util.*;
  * ExampleSite: http://www.csvreader.com/java_csv_samples.php
  */
 
-public class WorkWithCSV {
+public class CSVUtils {
     private RandomUtils randomUtils = new RandomUtils();
     ConfigLoader config = new ConfigLoader();
     private String saveFile = ConfigLoader.REPORTS_DIR + "/";

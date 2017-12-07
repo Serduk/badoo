@@ -5,7 +5,7 @@ package test.custom;
  */
 
 import core.configs.ConfigLoader;
-import core.csvUtils.WorkWithCSV;
+import core.utils.CSVUtils;
 import core.helpers.httpHelper.BadooHelper;
 import core.random.RandomUtils;
 import org.testng.annotations.BeforeClass;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 public class RegistrationUsers {
 
     private RandomUtils random;
-    private WorkWithCSV csv;
+    private CSVUtils csv;
     private String csvFile;
 
     private HashMap<String, String> csvDataSaver = new HashMap<>();
@@ -46,7 +46,7 @@ public class RegistrationUsers {
     public void init() throws IOException {
         random = new RandomUtils();
 
-        csv = new WorkWithCSV();
+        csv = new CSVUtils();
         csvFile = csv.createCsv("userRegOutput" + random.getDateAndTime());
         csvDataSaver.put("timeRegistration", "TimeRegistration");
         csvDataSaver.put("site", "Site");
@@ -67,7 +67,7 @@ public class RegistrationUsers {
 
     @DataProvider(name = "dp", parallel = true)
     public Iterator<Object[]> getData() throws IOException {
-        WorkWithCSV regUsers = new WorkWithCSV();
+        CSVUtils regUsers = new CSVUtils();
         return regUsers.csvGenerateUsers(ConfigLoader.REPORTS_DIR + "/" + "userReg.csv");
     }
 
