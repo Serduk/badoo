@@ -1,4 +1,4 @@
-package core.csvUtils;
+package core.utils;
 
 /**
  * Class for work with CSV file.
